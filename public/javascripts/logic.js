@@ -151,7 +151,7 @@ function movePlayer(evt) {
     if(gameInstance!=null){
 let bound=canvas.getBoundingClientRect();
 player1.y=evt.clientY-bound.top-player1.height/2;
-socket.emit('playerMoved',player1.y);}
+socket.emit('playerMoved',player1.y/game.height);}
 }
 function start()
 {
@@ -182,6 +182,6 @@ socket.on('gameReady',function (direction) {
 });
 socket.on('opponentMoved',function (position) {
 
-   player2.y=position;
+   player2.y=game.height*position;
 });
 
