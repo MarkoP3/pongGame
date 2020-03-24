@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>bla bla</title>
+    <link rel="stylesheet" href="stylesheets/style.css">
+</head>
+<body align="center" onmousemove="movePlayer(event)">
+<canvas id="pongTable"></canvas>
+<script src="/socket.io/socket.io.js"></script>
+<script src="javascripts/logic.js"></script>
+<div id="startMenu">
+    <h1>Pong Game</h1>
+    <button onclick="requestGame()">Request a game</button>
+    <button>Options</button>
+    <h2 id="winLoseLabel"></h2>
+</div>
+</body>
+</html>
