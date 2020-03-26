@@ -1,15 +1,16 @@
 const canvas=document.getElementById('pongTable');
 const context=canvas.getContext('2d');
 let socket=io.connect();
-
+let botGame=false;
 let gameInstance=null;
 const game={
     width:(screen.width*0.8>=window.innerHeight?window.innerHeight/0.8:screen.width),
     height:(screen.width*0.8>=window.innerHeight?window.innerHeight:screen.width*0.8),
     fps:60,
     color:"black",
-    playerHeightScale:0.4,
-    playerWidthScale:0.06
+    playerHeightScale:0.2,
+    playerWidthScale:0.04,
+    difficulty:0.2
 };
 const player1={
     x:0,
@@ -90,6 +91,8 @@ ball.velocityX=-ball.velocityX;
 
 }
 function update() {
+   if(botGame)
+       player2.y+=(ball.y-(player2.y+player2.y/2))*game.difficulty;
     if(ball.x+ball.radius>game.width)
     {
         player1.score++;
@@ -130,7 +133,7 @@ function update() {
    ball.velocitX=ball.speed*Math.cos(angle);
    ball.velocityY=ball.speed*Math.sin(angle);
     ball.velocityX=-ball.velocityX;
-    ball.speed+=0.1;
+    ball.speed+=1;
     }
 
 }
@@ -148,10 +151,11 @@ function collision(ball,player) {
     return player.left < ball.right && player.top < ball.bottom && player.right > ball.left && player.bottom > ball.top;
 }
 function movePlayer(evt) {
-    if(gameInstance!=null){
-let bound=canvas.getBoundingClientRect();
+    let bound=canvas.getBoundingClientRect();
 player1.y=evt.clientY-bound.top-player1.height/2;
-socket.emit('playerMoved',player1.y/game.height);}
+    if(gameInstance!=null && !botGame){
+socket.emit('playerMoved',player1.y/game.height);
+}
 }
 function start()
 {
@@ -164,7 +168,8 @@ function newGame()
     document.getElementById('startMenu').style.display="none";
 }
 function requestGame() {
-    socket.emit('startNewGame');
+
+   socket.emit('startNewGame');
     document.getElementById('winLoseLabel').innerText="Searching for players...";
 }
 function gameOver() {
@@ -181,7 +186,19 @@ socket.on('gameReady',function (direction) {
     newGame();
 });
 socket.on('opponentMoved',function (position) {
-
    player2.y=game.height*position;
 });
-
+function fill(object) {
+    let parent=object.parentNode;
+    let children=parent.getElementsByTagName('li');
+    game.difficulty=object.getAttribute('value');
+    alert(game.difficulty);
+    let objectIndex=Math.round(game.difficulty/0.2)-1;
+   for(let i=0;i<children.length;i++)
+    {
+        if(i<=objectIndex)
+           children[i].className="glow";
+        else
+            children[i].className="";
+    }
+}
