@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>bla bla</title>
+    <title>Pong Game</title>
     <link rel="stylesheet" href="stylesheets/style.css">
 </head>
 <body align="center" onmousemove="movePlayer(event)">
@@ -11,8 +11,16 @@
 <script src="javascripts/logic.js"></script>
 <div id="startMenu">
     <h1>Pong Game</h1>
-    <button onclick="requestGame()">Request a game</button>
-    <button>Options</button>
+    <button onclick="requestGame()">1vs1</button>
+    <button onclick="newGame();botGame=true">1vsCom</button>
+    <h2>Difficulty</h2>
+    <ul class="difficultyBar">
+        <li onclick="fill(this)" value="0.2" class="glow"></li>
+        <li onclick="fill(this)" value="0.4"></li>
+        <li onclick="fill(this)" value="0.6"></li>
+        <li onclick="fill(this)" value="0.8"></li>
+        <li onclick="fill(this)" value="1"></li>
+    </ul>
     <h2 id="winLoseLabel"></h2>
 </div>
 </body>
