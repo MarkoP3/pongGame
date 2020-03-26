@@ -4,8 +4,8 @@ let socket=io.connect();
 let botGame=false;
 let gameInstance=null;
 const game={
-    width:(screen.width*0.8>=window.innerHeight?window.innerHeight/0.8:screen.width),
-    height:(screen.width*0.8>=window.innerHeight?window.innerHeight:screen.width*0.8),
+    width:600,
+    height:400,
     fps:60,
     color:"black",
     playerHeightScale:0.2,
